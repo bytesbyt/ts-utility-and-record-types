@@ -74,11 +74,12 @@ type TeamMember = {
   
 // 1. `createTeamMember` 함수 작성
 function createTeamMember(data: Partial<TeamMember>): TeamMember {
+    if (data.id === undefined) throw new Error("ID is required");
     return {
-        id : data.id!,
-        name: data.name || "",
-        email: data.email || "",
-        role: data.role || "developer",
+        id : data.id,
+        name: data.name ?? "",
+        email: data.email ?? "",
+        role: data.role ?? "developer",
         isActive: data.isActive ?? true,
     };
 }
@@ -167,7 +168,7 @@ const scores: Record<string, number> = {
   function calculateAverageScore(scores: Record<string, number>): number {
     const values = Object.values(scores);
     const total = values.reduce((sum, score) => sum + score, 0)
-    return total / values.length;
+    return values.length > 0 ? total / values.length: 0;
   }
   
   // 테스트 코드
